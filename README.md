@@ -4,9 +4,9 @@ jsoncache
 * start.sh activate the python virtualenv and starts the webserver/fetcher process
 * copy init Script into /etc/init.d and link as nessesary (eg rc2.d, rc0.d, rc6.d)
 
-Dependencies:
-    * virtualenv
-    * python json tree
+#### Dependencies:
+* virtualenv
+* python json tree
 
 
 
