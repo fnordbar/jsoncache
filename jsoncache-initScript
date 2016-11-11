@@ -1,0 +1,53 @@
+#!/bin/sh
+# Start/stop jsonchache
+
+### BEGIN INIT INFO
+# Provides:          jsoncache
+# Required-Start:    $remote_fs $syslog
+# Required-Stop:     $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: jsoncache initscript
+# Description:       This init script star/stops the jsoncache
+### END INIT INFO
+
+
+NAME=jsonchache
+PIDFILE=/var/run/${NAME}.pid
+
+. /lib/lsb/init-functions
+
+RUN_AS=`id -u jsoncache`
+CMD=/opt/jsoncache/start.sh
+DIR=/opt/jsoncache
+OPTS=
+
+do_start() {
+    start-stop-daemon --start --background --user $RUN_AS --pidfile $PIDFILE --chuid $RUN_AS --chdir $DIR --startas $CMD -- $OPTS 
+}
+
+do_stop() {
+    start-stop-daemon --stop --user $RUN_AS
+}
+
+case "$1" in
+start)
+    log_action_msg "Starting $NAME"
+    do_start
+    ;;
+stop)
+    log_action_msg "Stopping $NAME"
+    do_stop
+    ;;
+restart)
+    log_action_msg "Restarting $NAME"
+    do_stop
+    sleep 2
+    do_start
+    ;;
+*)
+    log_action_msg "Usage: /etc/init.d/jsonchache {start|stop|restart}"
+    exit 2
+    ;;
+esac
+exit 0
